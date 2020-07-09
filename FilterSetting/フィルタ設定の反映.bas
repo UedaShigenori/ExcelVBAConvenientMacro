@@ -5,7 +5,8 @@ Sub フィルタ設定の反映()
 '対象ブック名取得
 bookName = Range("C2")
 sheetName = Range("C3")
-headLineCell = Range("C4")
+Dim headLineCell As String
+headLineCell = Range("C4").Value
 firstCell = Range("C5")
 
 'フィルタ条件を取得
@@ -25,7 +26,16 @@ Next
 'ターゲットとなるフィルタの選定
 firstCol = Range(firstCell).Column
 Set r = Workbooks(bookName).Worksheets(sheetName).Range(firstCell).CurrentRegion
-headLineCol = r.Find(what:=headLineCell, after:=r(1)).Column
+
+Dim firstData As String
+firstData = Workbooks(bookName).Worksheets(sheetName).Range(firstCell).Value
+
+If firstData = headLineCell Then
+    headLineCol = 1
+Else
+    
+    headLineCol = r.Find(what:=headLineCell, after:=r(1)).Column
+End If
 targetField = headLineCol - firstCol + 1
 
 'フィルタリング
